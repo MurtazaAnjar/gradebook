@@ -66,6 +66,36 @@ TEST_CASE("Report format contains header and commas") {
     std::string report = g.report();
 
     REQUIRE(report.find("Last_Name,First_Name,Student_Id") != std::string::npos);
+    REQUIRE(report.find(",Average") != std::string::npos);
     REQUIRE(report.find(",Midterm") != std::string::npos);
     REQUIRE(report.find("Ahmed,Ali,XYZ123") != std::string::npos);
+}
+
+TEST_CASE("Gradebook generates a correct assignment report") {
+    Gradebook g;
+
+    g.add_student("Bob", "Bobberson", "ABC123");
+    g.add_student("Sam", "Sammerson", "DEF456");
+    g.add_student("Jess","Jesserson", "HIJ789");
+
+    g.add_assignment("Quiz 1", 100);
+    g.add_assignment("Lab 1", 50);
+
+    g.enter_grade("DEF456", "Quiz 1", 95);
+    g.enter_grade("ABC123", "Quiz 1", 85);
+    g.enter_grade("HIJ789", "Lab 1", 49);
+    g.enter_grade("HIJ789", "Quiz 1", 93);
+    g.enter_grade("ABC123", "Lab 1", 0);
+
+    std::string report = g.assignment_report("Lab 1");
+
+    std::string expected =
+        "Last_Name,First_Name,Student_Id,Score\n"
+        "Bobberson,Bob,ABC123,0\n"
+        "Sammerson,Sam,DEF456,none\n"
+        "Jesserson,Jess,HIJ789,49\n"
+        "\n"
+        "Average score:";
+
+    REQUIRE(report.find(expected) != std::string::npos);
 }

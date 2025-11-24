@@ -18,6 +18,7 @@ int main() {
     gradebook.enter_grade("DEF456", "Quiz_1", 95);
 
     std::cout << gradebook.report();
+    std::cout << gradebook.assignment_report("Lab_1");
 
     return 0;
 }

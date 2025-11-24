@@ -16,6 +16,7 @@ public:
     void add_assignment(const std::string &name, double pointsPossible);
     void enter_grade(const std::string &id, const std::string &assignment_name, double grade);
     std::string report() const;
+    std::string assignment_report(const std::string &assignmentName) const;
 };
 
 #endif
